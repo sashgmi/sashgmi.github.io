@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import './App.css'; 
-import profilePic from './sash.png'; 
+import profilePic from './sash.png';
+import rileyPic from './riley.jpg';
 
 function App() {
   const [activeTab, setActiveTab] = useState('ABOUT');
   const [darkMode, setDarkMode] = useState(true);
+  const [flipped, setFlipped] = useState(false);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -101,8 +103,11 @@ function App() {
 
         {/* HEADER */}
         <header className="header">
-          <div className="avatar-frame">
-            <img src={profilePic} alt="Sash Profile" />
+          <div className={`avatar-frame ${flipped ? 'flipped' : ''}`} onClick={() => setFlipped(!flipped)}>
+            <div className="avatar-inner">
+              <img className="avatar-front" src={profilePic} alt="Sash Profile" />
+              <img className="avatar-back" src={rileyPic} alt="Riley" />
+            </div>
           </div>
           <div className="identity">
             <h1>Sasha B.</h1>
