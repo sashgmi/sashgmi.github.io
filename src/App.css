@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
 :root {
-  --bg-color: #050505;
-  --box-bg: #111111;
+  --bg-color: #1a1a1a;
+  --box-bg: #242424;
   --text-main: #e5e5e5;
-  --text-dim: #888888;
+  --text-dim: #999999;
   --accent: #ffffff;
-  --border: #333333;
+  --border: #3d3d3d;
   --border-hover: #4F46E5;
   --font-stack: 'JetBrains Mono', monospace;
   --max-width: 768px;
@@ -37,11 +37,27 @@ body {
   font-family: var(--font-stack);
 }
 
+/* --- LIGHT THEME --- */
+.app-container.light {
+  --bg-color: #f5f5f5;
+  --box-bg: #ffffff;
+  --text-main: #1a1a1a;
+  --text-dim: #666666;
+  --accent: #000000;
+  --border: #d4d4d4;
+  --border-hover: #4F46E5;
+}
+
 .app-container {
   width: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   padding: 0 16px;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  position: relative;
 }
 
 .container {
@@ -51,13 +67,14 @@ body {
   flex-direction: column;
   gap: 26px;
   padding-bottom: 48px;
+  position: relative;
 }
 
 .header {
   display: flex;
   align-items: center;
   gap: 26px;
-  border-bottom: 1px solid rgba(79, 70, 229, 0.2);
+  border-bottom: none;
   padding-bottom: 19px;
 }
 
@@ -85,11 +102,14 @@ body {
   letter-spacing: -0.05em;
   font-weight: 700;
   margin-bottom: 6px;
+  background: linear-gradient(90deg, #ec4899, #8b5cf6, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .identity p {
   color: var(--text-dim);
-
   font-size: 0.88rem;
 }
 
@@ -103,7 +123,7 @@ body {
 
 .nav-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 13px;
 }
 
@@ -253,8 +273,8 @@ footer {
   width: 100%;
 
   backdrop-filter: blur(10px);
-  background-color: rgba(5, 5, 5, 0.85);
-  border-top: 1px solid rgba(51, 51, 51, 0.5);
+  background-color: rgba(26, 26, 26, 0.85);
+  border-top: none;
   padding: 12px 0;
 
   text-align: center;
@@ -301,6 +321,61 @@ footer a:hover {
     opacity: 0.4;
     transform: scale(1.1);
   }
+}
+
+/* --- THEME TOGGLE --- */
+.theme-toggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.theme-toggle .icon {
+  position: absolute;
+  font-size: 1.3rem;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease;
+  opacity: 0;
+  transform: scale(0.5) rotate(-180deg);
+}
+
+.theme-toggle .icon.active {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* --- LIGHT THEME OVERRIDES --- */
+.app-container.light .btn-small {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-container.light .main-box {
+  box-shadow:
+    0 5px 0px rgba(0,0,0,0.08),
+    0 0 32px rgba(79, 70, 229, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.app-container.light footer {
+  background-color: rgba(245, 245, 245, 0.85);
+}
+
+.app-container.light .highlight-box {
+  color: #555555;
+}
+
+.app-container.light .social-btn {
+  background: var(--bg-color);
 }
 
 @media (max-width: 768px) {

@@ -4,6 +4,7 @@ import profilePic from './sash.png';
 
 function App() {
   const [activeTab, setActiveTab] = useState('ABOUT');
+  const [darkMode, setDarkMode] = useState(true);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -85,9 +86,19 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${darkMode ? 'dark' : 'light'}`}>
       <div className="container">
-        
+
+        {/* THEME TOGGLE */}
+        <button
+          className="theme-toggle"
+          onClick={() => setDarkMode(!darkMode)}
+          aria-label="Toggle theme"
+        >
+          <span className={`icon sun ${!darkMode ? 'active' : ''}`}>☀️</span>
+          <span className={`icon moon ${darkMode ? 'active' : ''}`}>🌙</span>
+        </button>
+
         {/* HEADER */}
         <header className="header">
           <div className="avatar-frame">
@@ -96,7 +107,6 @@ function App() {
           <div className="identity">
             <h1>Sasha B.</h1>
             <p>Web3 Growth & Marketing</p>
-            <span className="separator-line"></span>
           </div>
         </header>
 
