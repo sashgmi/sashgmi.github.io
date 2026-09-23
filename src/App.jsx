@@ -59,7 +59,6 @@ function App() {
                 className="title-switch"
                 onClick={toggleWorkTab}
                 aria-label={workTab === 'WEB3' ? 'Web3 Missions, switch to Web2 Experience' : 'Web2 Experience, switch to Web3 Missions'}
-                title="web3 ⇄ web2"
               >
                 Web
                 <span className="roll roll-digit">
