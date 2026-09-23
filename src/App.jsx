@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css'; 
 import profilePic from './sash.png';
 import rileyPic from './riley.jpg';
@@ -7,6 +7,31 @@ function App() {
   const [activeTab, setActiveTab] = useState('ABOUT');
   const [darkMode, setDarkMode] = useState(true);
   const [flipped, setFlipped] = useState(false);
+  const [workTab, setWorkTab] = useState('WEB3');
+  const [hintPeek, setHintPeek] = useState(false);
+  const hintTimers = useRef([]);
+
+  const clearHint = () => {
+    hintTimers.current.forEach(clearTimeout);
+    hintTimers.current = [];
+    setHintPeek(false);
+  };
+
+  // À chaque ouverture de WORK : le titre passe à Web2 puis revient, pour montrer qu'il est cliquable
+  useEffect(() => {
+    if (activeTab !== 'WORK') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    hintTimers.current = [
+      setTimeout(() => setHintPeek(true), 1200),
+      setTimeout(() => setHintPeek(false), 1200 + 450 + 800),
+    ];
+    return clearHint;
+  }, [activeTab]);
+
+  const toggleWorkTab = () => {
+    clearHint();
+    setWorkTab(workTab === 'WEB3' ? 'WEB2' : 'WEB3');
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -29,7 +54,27 @@ function App() {
       case 'WORK':
         return (
           <div className="fade-in">
-            <h3 className="section-title">Web3 Missions</h3>
+            <h3 className="section-title">
+              <button
+                className="title-switch"
+                onClick={toggleWorkTab}
+                aria-label={workTab === 'WEB3' ? 'Web3 Missions, switch to Web2 Experience' : 'Web2 Experience, switch to Web3 Missions'}
+                title="web3 ⇄ web2"
+              >
+                Web
+                <span className="roll roll-digit">
+                  <span className={`roll-track ${(workTab === 'WEB2') !== hintPeek ? 'rolled' : ''}`}>
+                    <span>3</span><span>2</span>
+                  </span>
+                </span>
+                <span className="roll roll-word">
+                  <span className={`roll-track ${(workTab === 'WEB2') !== hintPeek ? 'rolled' : ''}`}>
+                    <span>Missions</span><span>Experience</span>
+                  </span>
+                </span>
+              </button>
+            </h3>
+            {workTab === 'WEB3' ? (
             <ul className="work-list">
               <li className="work-item">
                 <span className="work-date">2025</span>
@@ -46,6 +91,24 @@ function App() {
                 </div>
               </li>
             </ul>
+            ) : (
+            <ul className="work-list">
+              <li className="work-item">
+                <span className="work-date">2016</span>
+                <div className="work-details">
+                  <strong>Youth Coach @ Juventus Academy</strong>
+                  <p>Former D1 reserve player turned coach. 6 years coaching at Juventus Academy in a bilingual FR/EN setting: adapting my communication to every profile, building trust and keeping groups engaged.</p>
+                </div>
+              </li>
+              <li className="work-item">
+                <span className="work-date">2014</span>
+                <div className="work-details">
+                  <strong>Real Estate Investor & Owner-Manager</strong>
+                  <p>Owning and self-managing a rental property for 10+ years: tenants, budget, maintenance and admin. A daily school of autonomy, rigor and hands-on problem solving.</p>
+                </div>
+              </li>
+            </ul>
+            )}
           </div>
         );
 
